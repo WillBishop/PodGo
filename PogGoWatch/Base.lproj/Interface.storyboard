@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="13771" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
+    <device id="watch38" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="watchOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="13756"/>
+    </dependencies>
+    <scenes>
+        <!--Interface Controller-->
+        <scene sceneID="aou-V4-d1y">
+            <objects>
+                <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="PogGoWatch" customModuleProvider="target">
+                    <items>
+                        <table alignment="left" id="ow5-oe-sYB">
+                            <items>
+                                <tableRow identifier="podcastCell" id="z7P-xp-Ng9" customClass="podcastCell" customModule="PogGoWatch_Extension">
+                                    <group key="rootItem" width="1" height="0.0" alignment="left" layout="vertical" spacing="0.0" id="oGb-ux-r9a">
+                                        <items>
+                                            <label width="122" alignment="left" text="Hereos of Blight and Tragic" numberOfLines="0" id="UkU-11-aPP"/>
+                                            <label alignment="left" text="We Have Concerns" id="9C9-mb-DV2">
+                                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <fontDescription key="font" type="system" pointSize="13"/>
+                                            </label>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <outlet property="podcastArtist" destination="9C9-mb-DV2" id="FOp-Su-43Z"/>
+                                        <outlet property="podcastTitle" destination="UkU-11-aPP" id="z7Y-ay-TJN"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
+                    </items>
+                    <connections>
+                        <outlet property="podcastTable" destination="ow5-oe-sYB" id="1VT-4h-4Yc"/>
+                    </connections>
+                </controller>
+            </objects>
+        </scene>
+        <!--podcastPlay-->
+        <scene sceneID="bs4-eF-cAs">
+            <objects>
+                <controller identifier="podcastPlay" id="jZp-2j-Bch" customClass="podcastPlayView" customModule="PogGoWatch" customModuleProvider="target">
+                    <items>
+                        <label width="1" alignment="center" verticalAlignment="center" text="Big Skittle Li" textAlignment="center" numberOfLines="0" id="Llr-lG-9dQ"/>
+                        <label width="1" alignment="center" verticalAlignment="center" text="We Have Concerns" textAlignment="center" numberOfLines="0" id="Wko-fl-h64">
+                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <fontDescription key="font" type="system" pointSize="12"/>
+                        </label>
+                        <separator alignment="center" verticalAlignment="center" id="Oji-JP-Yez"/>
+                        <button width="1" alignment="center" verticalAlignment="center" title="Play" id="9Oc-4Z-1yU">
+                            <connections>
+                                <action selector="togglePlay" destination="jZp-2j-Bch" id="JFv-UT-kjd"/>
+                            </connections>
+                        </button>
+                    </items>
+                    <connections>
+                        <outlet property="playButton" destination="9Oc-4Z-1yU" id="d7j-ke-lLj"/>
+                        <outlet property="podcastAlbum" destination="Wko-fl-h64" id="aKN-3G-hLO"/>
+                        <outlet property="podcastTitle" destination="Llr-lG-9dQ" id="qEx-mh-pOa"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="275" y="288"/>
+        </scene>
+    </scenes>
+</document>
