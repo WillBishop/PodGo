@@ -12,4 +12,5 @@ class podcastCell: NSObject{
 	@IBOutlet var podcastTitle: WKInterfaceLabel!
 	@IBOutlet var podcastArtist: WKInterfaceLabel!
 	var asset: WKAudioFilePlayerItem!
+	var ready: Bool!
 }

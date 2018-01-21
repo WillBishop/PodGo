@@ -14,23 +14,26 @@ class podcastPlayView: WKInterfaceController {
 	@IBOutlet var podcastAlbum: WKInterfaceLabel!
 	
 	@IBOutlet var playButton: WKInterfaceButton!
-	var player: WKAudioFilePlayer!
+	var player: WKAudioFilePlayer?
 	var playing = false
 	
 	override func awake(withContext context: Any?) {
 		if let play = context as? WKAudioFilePlayer{
 			player = play
-			podcastTitle.setText(player.currentItem?.asset.title)
-			podcastAlbum.setText(player.currentItem?.asset.albumTitle)
+			podcastTitle.setText(player?.currentItem?.asset.title)
+			podcastAlbum.setText(player?.currentItem?.asset.albumTitle)
 		}
+	}
+	override func willDisappear() {
+		self.dismiss()  
 	}
 	@IBAction func togglePlay() {
 		if !playing{
-			player.play()
+			player?.play()
 			playButton.setTitle("Playing")
 			playing = true
 		} else{
-			player.pause()
+			player?.pause()
 			playButton.setTitle("Paused")
 			playing = false
 		}

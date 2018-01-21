@@ -51,6 +51,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
 				cell.podcastArtist.setText(ass.albumTitle)
 				cell.podcastTitle.setText(asset.key)
 				cell.asset = WKAudioFilePlayerItem(asset: ass)
+				cell.ready = true
 				
 			}
 		}
@@ -61,8 +62,21 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
 	override func table(_ table: WKInterfaceTable, didSelectRowAt rowIndex: Int) {
 
 		if let cell = podcastTable.rowController(at: rowIndex) as? podcastCell{
-			let asset = cell.asset
-			self.presentController(withName: "podcastPlay", context: WKAudioFilePlayer(playerItem: asset!))
+			if cell.ready{
+				
+				var asset = cell.asset
+				WKInterfaceDevice.current().play(WKHapticType.click)
+				if player != nil{
+					player.replaceCurrentItem(with: asset)
+					
+				} else{
+					player = WKAudioFilePlayer(playerItem: asset!)
+				}
+				self.presentController(withName: "podcastPlay", context: player)
+				asset = nil
+			} else{
+				WKInterfaceDevice.current().play(WKHapticType.failure)
+			}
 		}
 		
 		
@@ -127,16 +141,12 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
 				UserDefaults.standard.set(self.downloadNames, forKey: "downloadedFiles")
 				UserDefaults.standard.set(self.downloadedFiles, forKey: "downloadedNames")
 				let playerItem = WKAudioFilePlayerItem(asset: asset)
-				self.player = WKAudioFileQueuePlayer(playerItem: playerItem)
 				guard let cell = self.podcastTable.rowController(at: index) as? podcastCell else{ return}
-				switch self.player.status {
-				case .failed:
-					cell.podcastTitle.setText("Failed")
-				case .readyToPlay:
-					cell.podcastTitle.setText("Ready")
-				default:
-					cell.podcastArtist.setText("who knows")
-				}
+				WKInterfaceDevice.current().play(WKHapticType.success)
+				cell.podcastTitle.setText(asset.title)
+				cell.podcastArtist.setText(asset.albumTitle)
+				cell.ready = true
+				cell.asset = playerItem
 				
 			}
 			.downloadProgress { progress in
