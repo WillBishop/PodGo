@@ -72,7 +72,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
 				} else{
 					player = WKAudioFilePlayer(playerItem: asset!)
 				}
-				self.presentController(withName: "podcastPlay", context: player)
+				self.pushController(withName: "podcastPlay", context: player)
 				asset = nil
 			} else{
 				WKInterfaceDevice.current().play(WKHapticType.failure)

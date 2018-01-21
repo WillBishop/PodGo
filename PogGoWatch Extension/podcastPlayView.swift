@@ -24,9 +24,6 @@ class podcastPlayView: WKInterfaceController {
 			podcastAlbum.setText(player?.currentItem?.asset.albumTitle)
 		}
 	}
-	override func willDisappear() {
-		self.dismiss()  
-	}
 	@IBAction func togglePlay() {
 		if !playing{
 			player?.play()
