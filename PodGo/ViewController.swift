@@ -11,15 +11,21 @@ import WatchConnectivity
 
 class ViewController: UIViewController, WCSessionDelegate {
 	func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-		print("As successful as a chinese student")
+		print("Successful")
+		let url = UserDefaults.init(suiteName: "group.willbishop.sharedurls")?.object(forKey: "url") as? String
+
+		if let ur = url{
+			wcSession?.sendMessage(["url": ur], replyHandler: nil, errorHandler: nil)
+			
+		}
 	}
 	
 	func sessionDidBecomeInactive(_ session: WCSession) {
-		print("slower than toby")
+		print("Became inactive")
 	}
 	
 	func sessionDidDeactivate(_ session: WCSession) {
-		print("aw fuck can't believe you done this")
+		print("Deactivated")
 	}
 	
 	var wcSession: WCSession?
@@ -39,15 +45,7 @@ class ViewController: UIViewController, WCSessionDelegate {
 	}
 	
 	override func viewDidAppear(_ animated: Bool) {
-		print("her")
-		
-		let url = UserDefaults.init(suiteName: "group.willbishop.sharedurls")?.object(forKey: "url") as? String
-		print(url)
-		if let ur = url{
-			print(ur)
-			wcSession?.sendMessage(["url": ur], replyHandler: nil, errorHandler: nil)
-			
-		}
+	
 	}
 	@IBAction func s(_ sender: Any) {
 		let url = UserDefaults.init(suiteName: "group.willbishop.sharedurls")?.object(forKey: "url") as? String
@@ -55,10 +53,7 @@ class ViewController: UIViewController, WCSessionDelegate {
 		wcSession = WCSession.default
 		wcSession?.delegate = self
 		wcSession?.activate()
-		if let ur = url{
-			wcSession?.sendMessage(["url": ur], replyHandler: nil, errorHandler: nil)
-			
-		}
+		
 	}
 	
 

@@ -11,6 +11,9 @@ import WatchKit
 class podcastCell: NSObject{
 	@IBOutlet var podcastTitle: WKInterfaceLabel!
 	@IBOutlet var podcastArtist: WKInterfaceLabel!
+	@IBOutlet var podcastDuration: WKInterfaceLabel!
 	var asset: WKAudioFilePlayerItem!
 	var ready: Bool!
+	
 }
+

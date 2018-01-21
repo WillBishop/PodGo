@@ -22,6 +22,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
 	
 	override func awake(withContext context: Any?) {
         super.awake(withContext: context)
+		print("awake")
 		wcSession = WCSession.default
 		wcSession?.delegate = self
 		wcSession?.activate()
@@ -31,14 +32,16 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
 			print(error.localizedDescription)
 		})
 		
-//		let ur = "/Users/Will/Library/Developer/CoreSimulator/Devices/BA04FF83-676E-4B2A-B623-679742E7E4B3/data/Containers/Data/PluginKitPlugin/FD896473-FE24-4F9B-BCA4-D2FAB2017AF5/Documents/whc-528-bigskittlelies.mp3"
-//		let file = URL(fileURLWithPath: ur)
-//		let asset = WKAudioFileAsset(url: file)
-//		let item = WKAudioFilePlayerItem(asset: asset)
-//		self.player = WKAudioFilePlayer(playerItem: item)
-//		self.player.play()
-//
+
 		
+		
+		//self.downloadPod("https://audio.simplecast.com/c014fbf6.mp3")
+
+	}
+	override func didAppear() {
+		print("setting")
+		downloadedFiles = UserDefaults.standard.object(forKey: "downloadedNames") as? [String] ?? [String]()
+		downloadNames = UserDefaults.standard.object(forKey: "downloadedFiles") as? [String: String] ?? [String: String]()
 		podcastTable.setNumberOfRows(downloadNames.count, withRowType: "podcastCell")
 		for (index, asset) in downloadNames.enumerated(){
 			
@@ -50,30 +53,39 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
 				
 				cell.podcastArtist.setText(ass.albumTitle)
 				cell.podcastTitle.setText(asset.key)
+				let dur = Int(ass.duration)
+				let minu = self.secondsToHoursMinutesSeconds(seconds: dur)
+				
+				cell.podcastDuration.setText("\(minu.1):\(minu.2)")
 				cell.asset = WKAudioFilePlayerItem(asset: ass)
 				cell.ready = true
 				
 			}
 		}
-		
-		//self.downloadPod("https://audio.simplecast.com/c014fbf6.mp3")
-
 	}
 	override func table(_ table: WKInterfaceTable, didSelectRowAt rowIndex: Int) {
-
+		
 		if let cell = podcastTable.rowController(at: rowIndex) as? podcastCell{
 			if cell.ready{
 				
-				var asset = cell.asset
+				let asset = cell.asset
 				WKInterfaceDevice.current().play(WKHapticType.click)
 				if player != nil{
+					print("replacing")
+					
 					player.replaceCurrentItem(with: asset)
+					print(self.player.status)
+			
+					DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+						self.pushController(withName: "podcastPlay", context: self.player)
+					})
+					
 					
 				} else{
 					player = WKAudioFilePlayer(playerItem: asset!)
+					self.pushController(withName: "podcastPlay", context: player)
 				}
-				self.pushController(withName: "podcastPlay", context: player)
-				asset = nil
+				
 			} else{
 				WKInterfaceDevice.current().play(WKHapticType.failure)
 			}
@@ -81,6 +93,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
 		
 		
 	}
+	
 	func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
 		if let url = message["url"] as? String{
 			if !downloadedFiles.contains(url){
@@ -145,18 +158,28 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
 				WKInterfaceDevice.current().play(WKHapticType.success)
 				cell.podcastTitle.setText(asset.title)
 				cell.podcastArtist.setText(asset.albumTitle)
+				let dur = Int(asset.duration)
+				let minu = self.secondsToHoursMinutesSeconds(seconds: dur)
+				
+				cell.podcastDuration.setText("\(minu.1):\(minu.2)")
 				cell.ready = true
 				cell.asset = playerItem
 				
 			}
+			
 			.downloadProgress { progress in
-				print(progress)
+				
 				if let cell = self.podcastTable.rowController(at: index) as? podcastCell{
-					cell.podcastTitle.setText("Downloaded \(progress.fractionCompleted * 100)%")
-					
+					let percentOne = String(progress.fractionCompleted * 100).components(separatedBy: ".").first
+					let percentTwo = String(progress.fractionCompleted * 100).components(separatedBy: ".").last?.prefix(2)
+					cell.podcastTitle.setText("Downloading \(percentOne! + "." + String(describing: percentTwo!))%")
+					cell.podcastArtist.setText(progress.fileURL?.lastPathComponent)
 				}
 		}
 		
+	}
+	func secondsToHoursMinutesSeconds (seconds : Int) -> (Int, Int, Int) {
+		return (seconds / 3600, (seconds % 3600) / 60, (seconds % 3600) % 60)
 	}
     
     override func didDeactivate() {

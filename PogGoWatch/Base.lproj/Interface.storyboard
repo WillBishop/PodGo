@@ -9,25 +9,36 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="13756"/>
     </dependencies>
     <scenes>
-        <!--Interface Controller-->
+        <!--Podcasts-->
         <scene sceneID="aou-V4-d1y">
             <objects>
-                <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="PogGoWatch" customModuleProvider="target">
+                <controller title="Podcasts" id="AgC-eL-Hgc" customClass="InterfaceController" customModule="PogGoWatch" customModuleProvider="target">
                     <items>
                         <table alignment="left" id="ow5-oe-sYB">
                             <items>
                                 <tableRow identifier="podcastCell" id="z7P-xp-Ng9" customClass="podcastCell" customModule="PogGoWatch_Extension">
-                                    <group key="rootItem" width="1" height="0.0" alignment="left" layout="vertical" spacing="0.0" id="oGb-ux-r9a">
+                                    <group key="rootItem" width="1" height="0.0" alignment="left" spacing="1" id="oGb-ux-r9a">
                                         <items>
-                                            <label width="122" alignment="left" text="Hereos of Blight and Tragic" numberOfLines="0" id="UkU-11-aPP"/>
-                                            <label alignment="left" text="We Have Concerns" id="9C9-mb-DV2">
-                                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <fontDescription key="font" type="system" pointSize="13"/>
-                                            </label>
+                                            <group alignment="left" layout="vertical" spacing="0.0" id="JmY-x1-RIZ">
+                                                <items>
+                                                    <label alignment="left" text="We Have Concerns" id="9C9-mb-DV2">
+                                                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <fontDescription key="font" type="system" pointSize="9"/>
+                                                    </label>
+                                                    <label width="126" alignment="left" text="Hereos of Blight and Tragic" numberOfLines="0" id="UkU-11-aPP">
+                                                        <fontDescription key="font" type="system" pointSize="9"/>
+                                                    </label>
+                                                    <label alignment="left" text="22:31" id="IMW-0F-hl9">
+                                                        <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <fontDescription key="font" type="system" pointSize="9"/>
+                                                    </label>
+                                                </items>
+                                            </group>
                                         </items>
                                     </group>
                                     <connections>
                                         <outlet property="podcastArtist" destination="9C9-mb-DV2" id="FOp-Su-43Z"/>
+                                        <outlet property="podcastDuration" destination="IMW-0F-hl9" id="vd4-vj-4ag"/>
                                         <outlet property="podcastTitle" destination="UkU-11-aPP" id="z7Y-ay-TJN"/>
                                     </connections>
                                 </tableRow>
@@ -45,15 +56,20 @@
             <objects>
                 <controller identifier="podcastPlay" id="jZp-2j-Bch" customClass="podcastPlayView" customModule="PogGoWatch" customModuleProvider="target">
                     <items>
-                        <label width="1" alignment="center" verticalAlignment="center" text="Big Skittle Li" textAlignment="center" numberOfLines="0" id="Llr-lG-9dQ"/>
-                        <label width="1" alignment="center" verticalAlignment="center" text="We Have Concerns" textAlignment="center" numberOfLines="0" id="Wko-fl-h64">
+                        <label width="1" alignment="left" verticalAlignment="center" text="We Have Concerns" textAlignment="center" numberOfLines="0" id="Wko-fl-h64">
                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <fontDescription key="font" type="system" pointSize="12"/>
                         </label>
-                        <separator alignment="center" verticalAlignment="center" id="Oji-JP-Yez"/>
-                        <button width="1" alignment="center" verticalAlignment="center" title="Play" id="9Oc-4Z-1yU">
+                        <label width="1" alignment="left" verticalAlignment="center" text="Big Skittle Li" textAlignment="center" numberOfLines="0" id="Llr-lG-9dQ"/>
+                        <separator alignment="left" verticalAlignment="center" id="Oji-JP-Yez"/>
+                        <button width="1" alignment="left" verticalAlignment="center" title="Play" id="9Oc-4Z-1yU">
                             <connections>
                                 <action selector="togglePlay" destination="jZp-2j-Bch" id="JFv-UT-kjd"/>
+                            </connections>
+                        </button>
+                        <button width="1" alignment="left" verticalAlignment="center" title="Trash" id="FPB-50-wnb">
+                            <connections>
+                                <action selector="trashPodcast" destination="jZp-2j-Bch" id="b9x-zu-oDK"/>
                             </connections>
                         </button>
                     </items>
@@ -64,7 +80,7 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="275" y="288"/>
+            <point key="canvasLocation" x="275" y="345.5"/>
         </scene>
     </scenes>
 </document>
